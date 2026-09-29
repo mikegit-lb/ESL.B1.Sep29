@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>B1 ESL Speaking Practice • High School Day-to-Day Life</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="container">
+    <!-- Top Bar & Header -->
+    <header class="app-header">
+      <div class="top-bar">
+        <div class="logo-badge">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 14.93V17a1 1 0 0 1-2 0v-.07A7.003 7.003 0 0 1 5.07 11H5a1 1 0 0 1 0-2h.07A7.003 7.003 0 0 1 11 3.07V3a1 1 0 0 1 2 0v.07A7.003 7.003 0 0 1 18.93 9H19a1 1 0 0 1 0 2h-.07A7.003 7.003 0 0 1 13 16.93z"></path>
+          </svg>
+          <span>CEFR Level B1 • Intermediate ESL</span>
+        </div>
+
+        <div class="header-actions">
+          <button class="icon-btn" onclick="printWorksheet()" title="Print Worksheet / PDF">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 6 2 18 2 18 9"></polyline>
+              <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+              <rect x="6" y="14" width="12" height="8"></rect>
+            </svg>
+          </button>
+          <button class="icon-btn" id="theme-toggle-btn" onclick="toggleTheme()" title="Toggle Dark/Light Mode">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <h1 class="main-title">High School Life Speaking Hub</h1>
+      <p class="subtitle">30 interactive B1-level speaking prompts about daily routines, school, hobbies, screen time, and friendships with built-in timer, audio & vocabulary scaffolds.</p>
+
+      <!-- Practice Stats & Progress Tracker -->
+      <div class="stats-strip">
+        <span class="stat-item">🎯 30 Questions</span>
+        <span class="stat-item" id="stat-practiced-count">0 Practiced</span>
+        <span class="stat-item" id="stat-favs-count">0 Saved</span>
+        <span class="stat-item">⏱️ Cambridge PET & B1 Aligned</span>
+      </div>
+
+      <div class="progress-container">
+        <div class="progress-track">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        <span class="progress-text" id="progress-text">0 / 30 Practiced (0%)</span>
+      </div>
+    </header>
+
+    <!-- Navigation View Tabs -->
+    <nav class="view-tabs">
+      <button class="tab-btn active" data-tab="flashcard">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+          <line x1="8" y1="21" x2="16" y2="21"></line>
+          <line x1="12" y1="17" x2="12" y2="21"></line>
+        </svg>
+        Card Mode
+      </button>
+      <button class="tab-btn" data-tab="list">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="8" y1="6" x2="21" y2="6"></line>
+          <line x1="8" y1="12" x2="21" y2="12"></line>
+          <line x1="8" y1="18" x2="21" y2="18"></line>
+          <line x1="3" y1="6" x2="3.01" y2="6"></line>
+          <line x1="3" y1="12" x2="3.01" y2="12"></line>
+          <line x1="3" y1="18" x2="3.01" y2="18"></line>
+        </svg>
+        All 30 Prompts
+      </button>
+      <button class="tab-btn" data-tab="drill">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+        </svg>
+        Speed Drill
+      </button>
+      <button class="tab-btn" data-tab="tips">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M12 20h9"></path>
+          <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+        </svg>
+        B1 Rubric & Tips
+      </button>
+    </nav>
+
+    <!-- ==========================================
+         VIEW 1: INTERACTIVE CARD / FLASHCARD MODE
+         ========================================== -->
+    <section id="view-flashcard" class="view-section active">
+      <div class="flashcard-wrapper">
+        <div class="card-navigation-bar">
+          <span class="counter-badge" id="card-counter">Question 1 of 30</span>
+          <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">
+            Keyboard: <kbd style="background:var(--border); padding:2px 6px; border-radius:4px;">←</kbd> <kbd style="background:var(--border); padding:2px 6px; border-radius:4px;">→</kbd> to navigate • <kbd style="background:var(--border); padding:2px 6px; border-radius:4px;">Space</kbd> to listen
+          </div>
+        </div>
+
+        <div class="flashcard-main">
+          <!-- Card Top Bar -->
+          <div class="card-top-row">
+            <span class="category-tag" id="card-category-tag">Morning Routine</span>
+            <div class="card-actions">
+              <button class="card-action-btn" id="card-fav-btn" onclick="toggleCurrentFavorite()" title="Save to Favorites">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+              </button>
+              <button class="card-action-btn" id="card-practiced-btn" onclick="toggleCurrentPracticed()" title="Mark as Practiced">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Main Question Display -->
+          <div class="question-text-wrapper">
+            <div class="question-topic-label" id="card-topic-label">Morning Routine Before School</div>
+            <h2 class="speaking-question-title" id="card-question-text">What is your morning routine before heading to school?</h2>
+          </div>
+
+          <!-- Follow-up Prompts Box -->
+          <div class="followups-box">
+            <div class="box-heading">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+              </svg>
+              Follow-Up Speaking Prompts (Expand your response):
+            </div>
+            <ul class="followup-list" id="card-followups-list">
+              <li>What time do you usually get out of bed?</li>
+              <li>How long does it take you to get dressed?</li>
+            </ul>
+          </div>
+
+          <!-- Speaking Helper Toggles (Starters / Vocab / Model Answer) -->
+          <div class="scaffolding-container">
+            <div class="scaffold-toggles">
+              <button class="scaffold-btn active" data-scaffold="starters">
+                <span>💬 Sentence Starters</span>
+              </button>
+              <button class="scaffold-btn" data-scaffold="vocab">
+                <span>📚 Target Vocabulary</span>
+              </button>
+              <button class="scaffold-btn" data-scaffold="model">
+                <span>💡 Sample B1 Answer</span>
+              </button>
+            </div>
+            <div class="scaffold-content-box" id="scaffold-content-display">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <!-- Voice recording preview -->
+          <div id="recorded-audio-preview" style="display: none;"></div>
+        </div>
+
+        <!-- Practice Tools Bar -->
+        <div class="practice-tools-section">
+          <div class="tool-group">
+            <button class="tool-btn" id="card-listen-btn" onclick="speakCurrentQuestion()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+              </svg>
+              Listen Prompt
+            </button>
+            <button class="tool-btn" id="card-record-btn" onclick="toggleVoiceRecording()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                <line x1="12" y1="19" x2="12" y2="23"></line>
+                <line x1="8" y1="23" x2="16" y2="23"></line>
+              </svg>
+              <span id="record-btn-label">Record Voice</span>
+            </button>
+          </div>
+
+          <div class="tool-group">
+            <button class="tool-btn btn-primary" onclick="openTimerModal(15, 60)">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+              Speaking Timer (1 min)
+            </button>
+            <button class="tool-btn" onclick="openTimerModal(20, 90)">
+              ⏱️ 1.5 min Test
+            </button>
+          </div>
+        </div>
+
+        <!-- Flashcard Bottom Navigation -->
+        <div class="card-nav-controls">
+          <button class="nav-main-btn" onclick="prevQuestion()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+            Previous
+          </button>
+          <button class="nav-main-btn" onclick="shuffleQuestion()" title="Pick a Random Question">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="16 3 21 3 21 8"></polyline>
+              <line x1="4" y1="20" x2="21" y2="3"></line>
+              <polyline points="21 16 21 21 16 21"></polyline>
+              <line x1="15" y1="15" x2="21" y2="21"></line>
+              <line x1="4" y1="4" x2="9" y2="9"></line>
+            </svg>
+            Random
+          </button>
+          <button class="nav-main-btn btn-next" onclick="nextQuestion()">
+            Next Question
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         VIEW 2: FULL 30 QUESTION BANK (LIST MODE)
+         ========================================== -->
+    <section id="view-list" class="view-section">
+      <!-- Search & Filters -->
+      <div class="list-filter-bar">
+        <div class="search-input-wrap">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="search-input" class="search-input" placeholder="Search questions, topics, or vocabulary (e.g. homework, commute, breakfast)...">
+        </div>
+
+        <div class="category-pills">
+          <button class="pill-btn active" data-filter="all">All Topics (30)</button>
+          <button class="pill-btn" data-filter="routines">🌅 Morning Routines</button>
+          <button class="pill-btn" data-filter="school">🏫 School & Classes</button>
+          <button class="pill-btn" data-filter="social">👥 Friends & Breaks</button>
+          <button class="pill-btn" data-filter="hobbies">🎨 Hobbies & Sports</button>
+          <button class="pill-btn" data-filter="technology">📱 Tech & Screens</button>
+          <button class="pill-btn" data-filter="family">🏡 Family & Weekends</button>
+          <button class="pill-btn" data-filter="favorites">⭐ Saved</button>
+          <button class="pill-btn" data-filter="practiced">✅ Practiced</button>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span id="list-result-count" style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);">Showing 30 of 30 Questions</span>
+          <button class="icon-btn" style="width:auto; height:auto; padding:0.4rem 0.8rem; font-size:0.8rem; font-weight:700; gap:0.3rem;" onclick="printWorksheet()">
+            🖨️ Print Student Worksheet
+          </button>
+        </div>
+      </div>
+
+      <!-- Question Cards Grid -->
+      <div class="questions-grid" id="questions-list-grid">
+        <!-- Rendered by JS -->
+      </div>
+    </section>
+
+    <!-- ==========================================
+         VIEW 3: SPEED DRILL / RAPID FIRE
+         ========================================== -->
+    <section id="view-drill" class="view-section">
+      <div class="speed-drill-wrapper">
+        <div style="display:inline-block; background:var(--accent-light); color:var(--accent); font-weight:800; padding:0.35rem 0.9rem; border-radius:999px; font-size:0.85rem; margin-bottom:1rem;">
+          ⚡ Rapid Fire Speaking Drill
+        </div>
+        <h2 style="font-size: 1.8rem; font-weight: 800; margin-bottom: 0.5rem;">Think Fast & Speak for 60 Seconds</h2>
+        <p style="color: var(--text-secondary); max-width: 500px; margin: 0 auto;">Simulate real exam pressure or classroom warm-ups. Get 10 seconds to plan your answer, then speak non-stop for 1 minute!</p>
+
+        <div class="drill-question-box">
+          <span id="drill-category" style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: var(--primary); margin-bottom: 0.5rem;">Category</span>
+          <h3 id="drill-question-text">"Loading drill prompt..."</h3>
+        </div>
+
+        <div style="display: flex; justify-content: center; gap: 0.75rem; flex-wrap: wrap;">
+          <button class="tool-btn btn-primary" style="padding: 0.8rem 1.6rem; font-size: 1rem;" onclick="startDrillPractice()">
+            🚀 Start 60s Drill Now
+          </button>
+          <button class="tool-btn" style="padding: 0.8rem 1.2rem; font-size: 1rem;" onclick="renderDrillQuestion()">
+            🔀 Pick Another Prompt
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         VIEW 4: B1 SPEAKING STRATEGY BANK & RUBRIC
+         ========================================== -->
+    <section id="view-tips" class="view-section">
+      <div style="text-align: center; margin-bottom: 2rem;">
+        <h2 style="font-size: 1.8rem; font-weight: 800; margin-bottom: 0.4rem;">CEFR B1 Speaking Success Guide</h2>
+        <p style="color: var(--text-secondary);">Master essential transition words, discourse markers, and understand what examiners look for at the B1 intermediate level.</p>
+      </div>
+
+      <div class="tips-grid">
+        <div class="tip-card">
+          <h3>🤔 Buying Time (Thinking Phrases)</h3>
+          <p>Avoid awkward silences with natural opening fillers:</p>
+          <span class="tip-phrase-chip">"Well, to be honest..."</span>
+          <span class="tip-phrase-chip">"That's an interesting question..."</span>
+          <span class="tip-phrase-chip">"Let me think for a moment..."</span>
+          <span class="tip-phrase-chip">"As far as I'm concerned..."</span>
+        </div>
+
+        <div class="tip-card">
+          <h3>📌 Giving Reasons & Details</h3>
+          <p>Never give a 1-word answer. Extend with examples:</p>
+          <span class="tip-phrase-chip">"For instance / For example..."</span>
+          <span class="tip-phrase-chip">"The main reason why I say this is..."</span>
+          <span class="tip-phrase-chip">"In my personal experience..."</span>
+          <span class="tip-phrase-chip">"Another factor is that..."</span>
+        </div>
+
+        <div class="tip-card">
+          <h3>⚖️ Showing Contrast & Nuance</h3>
+          <p>Impress examiners by presenting both sides:</p>
+          <span class="tip-phrase-chip">"On the one hand... but on the other hand..."</span>
+          <span class="tip-phrase-chip">"Although I usually enjoy..., sometimes I..."</span>
+          <span class="tip-phrase-chip">"However, compared to last year..."</span>
+          <span class="tip-phrase-chip">"Even though it's not ideal, I..."</span>
+        </div>
+
+        <div class="tip-card">
+          <h3>🏁 Smooth Conclusions</h3>
+          <p>Finish your response with confidence:</p>
+          <span class="tip-phrase-chip">"All in all, I'd say that..."</span>
+          <span class="tip-phrase-chip">"To sum it up..."</span>
+          <span class="tip-phrase-chip">"So basically, that's my main routine."</span>
+          <span class="tip-phrase-chip">"Overall, it makes a huge difference."</span>
+        </div>
+      </div>
+
+      <!-- CEFR B1 Rubric Table -->
+      <div class="rubric-table-wrap">
+        <h3 style="margin-bottom: 1rem; font-size: 1.2rem; font-weight: 700; color: var(--text-primary);">📊 Cambridge B1 / PET Speaking Assessment Checklist</h3>
+        <table class="rubric-table">
+          <thead>
+            <tr>
+              <th>Criteria</th>
+              <th>What B1 Level Expects</th>
+              <th>How to Score High</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Grammar & Vocabulary</strong></td>
+              <td>Accurate use of simple and compound tenses (Present Simple, Past Simple, Present Perfect, 'going to').</td>
+              <td>Use topic-specific words (e.g. *commute, procrastinate, extracurricular*) instead of basic words like *good/bad*.</td>
+            </tr>
+            <tr>
+              <td><strong>Discourse Management</strong></td>
+              <td>Speaks in coherent sentences without excessive pausing or one-word answers.</td>
+              <td>Connect sentences with linkers like *because, although, therefore, as well as*.</td>
+            </tr>
+            <tr>
+              <td><strong>Pronunciation</strong></td>
+              <td>Intelligible and clear; individual sounds and sentence stress are mostly natural.</td>
+              <td>Speak clearly at a moderate pace. Record yourself with the built-in recorder to check your clarity.</td>
+            </tr>
+            <tr>
+              <td><strong>Interactive Communication</strong></td>
+              <td>Responds directly to the prompt and expands with relevant personal details.</td>
+              <td>Answer the 'Why' and give a 2-3 sentence story or daily example for every prompt.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <p>Designed for ESL / EFL High School Learners & Teachers • 30 Day-to-Day Life B1 Speaking Prompts</p>
+      <p style="margin-top: 0.35rem; font-size: 0.78rem;">Works 100% offline in any modern browser. Supports Web Speech API & Audio Recording.</p>
+    </footer>
+  </div>
+
+  <!-- ==========================================
+       TIMER MODAL
+       ========================================== -->
+  <div class="modal-overlay" id="timer-modal">
+    <div class="modal-card">
+      <h3 style="font-size: 1.3rem; font-weight: 800; color: var(--text-primary); margin-bottom: 0.25rem;">Speaking Practice Timer</h3>
+      <span class="timer-phase-badge" id="timer-phase-badge">🧠 Prep Time (Think & Plan)</span>
+
+      <div class="timer-circle-wrap">
+        <svg class="timer-svg" viewBox="0 0 170 170">
+          <circle class="timer-bg-circle" cx="85" cy="85" r="75"></circle>
+          <circle class="timer-progress-circle" id="timer-progress-svg-circle" cx="85" cy="85" r="75"></circle>
+        </svg>
+        <div class="timer-digits" id="timer-digits">0:15</div>
+      </div>
+
+      <div style="display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 1rem;">
+        <button class="pill-btn" onclick="setTimerPreset(15, 45)">15s + 45s</button>
+        <button class="pill-btn" onclick="setTimerPreset(15, 60)">15s + 60s</button>
+        <button class="pill-btn" onclick="setTimerPreset(30, 90)">30s + 90s</button>
+        <button class="pill-btn" onclick="setTimerPreset(0, 120)">2 min Direct</button>
+      </div>
+
+      <div class="timer-controls">
+        <button class="tool-btn btn-primary" id="timer-start-pause-btn" onclick="toggleTimerRun()" style="padding: 0.65rem 1.5rem; font-size: 0.95rem;">
+          Start Timer
+        </button>
+        <button class="tool-btn" onclick="resetTimerState()">
+          Reset
+        </button>
+        <button class="tool-btn" onclick="closeTimerModal()">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
