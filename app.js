@@ -6,8 +6,17 @@ let currentSearchTerm = '';
 let practicedIds = new Set(JSON.parse(localStorage.getItem('esl_b1_practiced') || '[]'));
 let favoriteIds = new Set(JSON.parse(localStorage.getItem('esl_b1_favorites') || '[]'));
 
-// Audio & Timer variables
-let isSpeaking = false;
+// Vocab Flashcards State
+let allVocabList = [];
+let currentVocabIndex = 0;
+let currentVocabFilter = 'all';
+let currentVocabSearchTerm = '';
+let isVocabFlipped = false;
+let vocabViewMode = 'flip'; // 'flip' or 'grid'
+let vocabMasteredIds = new Set(JSON.parse(localStorage.getItem('esl_vocab_mastered') || '[]'));
+let vocabStarIds = new Set(JSON.parse(localStorage.getItem('esl_vocab_starred') || '[]'));
+
+// Audio & Recording variables
 let mediaRecorder = null;
 let audioChunks = [];
 let recordedAudioUrl = null;
@@ -24,10 +33,15 @@ let speakSeconds = 60;
 
 // Initialize App
 document.addEventListener('DOMContentLoaded', () => {
+  if (typeof getAllVocabularyList === 'function') {
+    allVocabList = getAllVocabularyList();
+  }
   initTheme();
   updateProgressStats();
   renderFlashcard();
   renderListView();
+  renderVocabFlashcard();
+  renderVocabGridView();
   renderDrillQuestion();
   initEventListeners();
 });
@@ -75,7 +89,7 @@ function updateThemeIcon(theme) {
 function initEventListeners() {
   // Navigation tabs
   document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
+    btn.addEventListener('click', () => {
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
       
@@ -86,7 +100,7 @@ function initEventListeners() {
     });
   });
 
-  // Flashcard scaffolding tabs
+  // Question Flashcard scaffolding tabs
   document.querySelectorAll('.scaffold-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.scaffold-btn').forEach(b => b.classList.remove('active'));
@@ -96,7 +110,7 @@ function initEventListeners() {
     });
   });
 
-  // Search in list view
+  // Search in question list view
   const searchInput = document.getElementById('search-input');
   if (searchInput) {
     searchInput.addEventListener('input', (e) => {
@@ -105,29 +119,61 @@ function initEventListeners() {
     });
   }
 
-  // Category pills in list view
-  document.querySelectorAll('.pill-btn').forEach(pill => {
+  // Category pills in question list view
+  document.querySelectorAll('[data-filter]').forEach(pill => {
     pill.addEventListener('click', () => {
-      document.querySelectorAll('.pill-btn').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('[data-filter]').forEach(p => p.classList.remove('active'));
       pill.classList.add('active');
       currentCategoryFilter = pill.getAttribute('data-filter');
       renderListView();
     });
   });
 
+  // Search in vocab deck
+  const vocabSearchInput = document.getElementById('vocab-search-input');
+  if (vocabSearchInput) {
+    vocabSearchInput.addEventListener('input', (e) => {
+      currentVocabSearchTerm = e.target.value.toLowerCase();
+      currentVocabIndex = 0;
+      renderVocabFlashcard();
+      renderVocabGridView();
+    });
+  }
+
+  // Category pills in vocab deck
+  document.querySelectorAll('[data-vocab-filter]').forEach(pill => {
+    pill.addEventListener('click', () => {
+      document.querySelectorAll('[data-vocab-filter]').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      currentVocabFilter = pill.getAttribute('data-vocab-filter');
+      currentVocabIndex = 0;
+      renderVocabFlashcard();
+      renderVocabGridView();
+    });
+  });
+
   // Keyboard navigation
   document.addEventListener('keydown', (e) => {
-    // Only navigate with arrows if not typing in input
     if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') return;
     
-    const isFlashcardActive = document.getElementById('view-flashcard').classList.contains('active');
-    if (isFlashcardActive) {
+    const isQuestionCardActive = document.getElementById('view-flashcard').classList.contains('active');
+    const isVocabCardActive = document.getElementById('view-vocab-deck').classList.contains('active');
+
+    if (isQuestionCardActive) {
       if (e.key === 'ArrowRight') nextQuestion();
       if (e.key === 'ArrowLeft') prevQuestion();
       if (e.key === 'r' || e.key === 'R') shuffleQuestion();
       if (e.key === ' ') {
         e.preventDefault();
         speakCurrentQuestion();
+      }
+    } else if (isVocabCardActive && vocabViewMode === 'flip') {
+      if (e.key === 'ArrowRight') markVocabAndNext();
+      if (e.key === 'ArrowLeft') prevVocabCard();
+      if (e.key === 'r' || e.key === 'R') shuffleVocabCard();
+      if (e.key === ' ' || e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        toggleVocabCardFlip();
       }
     }
   });
@@ -142,20 +188,21 @@ function updateProgressStats() {
   const progressFill = document.getElementById('progress-fill');
   const progressText = document.getElementById('progress-text');
   const statPracticed = document.getElementById('stat-practiced-count');
-  const statFavs = document.getElementById('stat-favs-count');
+  const statVocabMastered = document.getElementById('stat-vocab-mastered');
 
   if (progressFill) progressFill.style.width = `${percent}%`;
   if (progressText) progressText.innerText = `${count} / ${total} Practiced (${percent}%)`;
   if (statPracticed) statPracticed.innerText = `${count} Practiced`;
-  if (statFavs) statFavs.innerText = `${favoriteIds.size} Saved`;
+  if (statVocabMastered) statVocabMastered.innerText = `${vocabMasteredIds.size} / ${allVocabList.length || 120} Mastered`;
 }
 
-// Flashcard Render
+// ============================================================
+// SPEAKING QUESTIONS FLASHCARD RENDER
+// ============================================================
 function renderFlashcard() {
   const q = speakingQuestions[currentIndex];
   if (!q) return;
 
-  // Header badges & navigation
   const counterBadge = document.getElementById('card-counter');
   if (counterBadge) counterBadge.innerText = `Question ${currentIndex + 1} of ${speakingQuestions.length}`;
 
@@ -170,41 +217,33 @@ function renderFlashcard() {
     `;
   }
 
-  // Favorite button state
   const favBtn = document.getElementById('card-fav-btn');
   if (favBtn) {
     favBtn.classList.toggle('active-favorite', favoriteIds.has(q.id));
     favBtn.title = favoriteIds.has(q.id) ? "Remove from Favorites" : "Save to Favorites";
   }
 
-  // Practiced button state
   const practicedBtn = document.getElementById('card-practiced-btn');
   if (practicedBtn) {
     practicedBtn.classList.toggle('active-practiced', practicedIds.has(q.id));
     practicedBtn.title = practicedIds.has(q.id) ? "Mark as Not Practiced" : "Mark as Practiced";
   }
 
-  // Question texts
   const topicLabel = document.getElementById('card-topic-label');
   if (topicLabel) topicLabel.innerText = q.title;
 
   const questionText = document.getElementById('card-question-text');
   if (questionText) questionText.innerText = q.question;
 
-  // Follow-ups
   const followupsList = document.getElementById('card-followups-list');
   if (followupsList) {
     followupsList.innerHTML = q.followUps.map(f => `<li>${f}</li>`).join('');
   }
 
-  // Scaffolding content (starters, vocab, model answer)
   renderScaffoldContent();
 
-  // Reset audio playback widget if exists
   const audioPreview = document.getElementById('recorded-audio-preview');
-  if (audioPreview) {
-    audioPreview.style.display = 'none';
-  }
+  if (audioPreview) audioPreview.style.display = 'none';
 }
 
 function renderScaffoldContent() {
@@ -223,8 +262,17 @@ function renderScaffoldContent() {
       <div class="vocab-grid">
         ${q.vocab.map(v => `
           <div class="vocab-card-item">
-            <div class="vocab-term">${v.word}</div>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span class="vocab-term">${v.word}</span>
+              <button class="icon-btn" style="width:28px; height:28px;" onclick="speakText('${v.word.replace(/'/g, "\\'")}')" title="Listen">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                  <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                </svg>
+              </button>
+            </div>
             <div class="vocab-def">${v.meaning}</div>
+            ${v.example ? `<div style="font-size:0.75rem; color:var(--text-muted); font-style:italic; margin-top:0.3rem;">"${v.example}"</div>` : ''}
           </div>
         `).join('')}
       </div>
@@ -239,22 +287,13 @@ function renderScaffoldContent() {
   }
 }
 
-// Flashcard Navigation
 function nextQuestion() {
-  if (currentIndex < speakingQuestions.length - 1) {
-    currentIndex++;
-  } else {
-    currentIndex = 0; // loop back
-  }
+  currentIndex = (currentIndex + 1) % speakingQuestions.length;
   renderFlashcard();
 }
 
 function prevQuestion() {
-  if (currentIndex > 0) {
-    currentIndex--;
-  } else {
-    currentIndex = speakingQuestions.length - 1; // loop to end
-  }
+  currentIndex = (currentIndex - 1 + speakingQuestions.length) % speakingQuestions.length;
   renderFlashcard();
 }
 
@@ -272,7 +311,6 @@ function jumpToQuestion(id) {
   const idx = speakingQuestions.findIndex(q => q.id === id);
   if (idx !== -1) {
     currentIndex = idx;
-    // Switch tab to flashcard
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
     document.querySelector('[data-tab="flashcard"]').classList.add('active');
@@ -282,7 +320,6 @@ function jumpToQuestion(id) {
   }
 }
 
-// Favorite & Practiced Toggles
 function toggleCurrentFavorite() {
   const q = speakingQuestions[currentIndex];
   if (!q) return;
@@ -317,11 +354,311 @@ function toggleCurrentPracticed() {
   renderListView();
 }
 
-// Text to Speech
+// ============================================================
+// VOCABULARY FLASHCARDS LOGIC & RENDERING (NEW)
+// ============================================================
+function getFilteredVocabList() {
+  return allVocabList.filter(v => {
+    // Filter tags
+    if (currentVocabFilter === 'starred' && !vocabStarIds.has(v.vocabId)) return false;
+    if (currentVocabFilter === 'mastered' && !vocabMasteredIds.has(v.vocabId)) return false;
+    if (currentVocabFilter === 'learning' && vocabMasteredIds.has(v.vocabId)) return false;
+    if (currentVocabFilter !== 'all' && currentVocabFilter !== 'starred' && currentVocabFilter !== 'mastered' && currentVocabFilter !== 'learning') {
+      if (v.categoryKey !== currentVocabFilter) return false;
+    }
+
+    // Search query
+    if (currentVocabSearchTerm) {
+      const matchWord = v.word.toLowerCase().includes(currentVocabSearchTerm);
+      const matchMeaning = v.meaning.toLowerCase().includes(currentVocabSearchTerm);
+      const matchExample = v.example.toLowerCase().includes(currentVocabSearchTerm);
+      const matchCategory = v.category.toLowerCase().includes(currentVocabSearchTerm);
+      if (!matchWord && !matchMeaning && !matchExample && !matchCategory) return false;
+    }
+
+    return true;
+  });
+}
+
+function renderVocabFlashcard() {
+  const list = getFilteredVocabList();
+  const cardElem = document.getElementById('vocab-flip-card');
+  const counterElem = document.getElementById('vocab-card-counter');
+
+  // Ensure card is not flipped when switching
+  if (cardElem) cardElem.classList.remove('flipped');
+  isVocabFlipped = false;
+
+  if (list.length === 0) {
+    if (counterElem) counterElem.innerText = "0 Cards Available";
+    const frontWord = document.getElementById('vocab-front-word');
+    if (frontWord) frontWord.innerText = "No words match filter";
+    return;
+  }
+
+  if (currentVocabIndex >= list.length) currentVocabIndex = 0;
+  if (currentVocabIndex < 0) currentVocabIndex = list.length - 1;
+
+  const current = list[currentVocabIndex];
+  if (!current) return;
+
+  if (counterElem) counterElem.innerText = `Card ${currentVocabIndex + 1} of ${list.length}`;
+
+  // Front face
+  const frontCat = document.getElementById('vocab-front-cat');
+  const frontPos = document.getElementById('vocab-front-pos');
+  const frontWord = document.getElementById('vocab-front-word');
+  const frontContext = document.getElementById('vocab-front-context');
+  const frontStar = document.getElementById('vocab-front-star-btn');
+  const frontMaster = document.getElementById('vocab-front-master-btn');
+
+  if (frontCat) frontCat.innerText = current.category;
+  if (frontPos) frontPos.innerText = current.pos;
+  if (frontWord) frontWord.innerText = current.word;
+  if (frontContext) frontContext.innerText = `Used in: Q${current.questionId} • ${current.questionTitle}`;
+
+  if (frontStar) {
+    frontStar.classList.toggle('active-favorite', vocabStarIds.has(current.vocabId));
+  }
+  if (frontMaster) {
+    frontMaster.classList.toggle('active-practiced', vocabMasteredIds.has(current.vocabId));
+  }
+
+  // Back face
+  const backCat = document.getElementById('vocab-back-cat');
+  const backWordMini = document.getElementById('vocab-back-word-mini');
+  const backMeaning = document.getElementById('vocab-back-meaning');
+  const backExample = document.getElementById('vocab-back-example');
+  const backJumpBtn = document.getElementById('vocab-back-jump-btn');
+
+  if (backCat) backCat.innerText = current.category;
+  if (backWordMini) backWordMini.innerText = current.word;
+  if (backMeaning) backMeaning.innerText = current.meaning;
+  if (backExample) {
+    // Bold the word inside example if possible
+    const reg = new RegExp(`(${current.word.split('/')[0].trim()})`, 'gi');
+    const formatted = current.example ? `"${current.example}"` : '—';
+    backExample.innerHTML = formatted.replace(reg, '<strong>$1</strong>');
+  }
+  if (backJumpBtn) {
+    backJumpBtn.innerText = `💬 Practice Speaking Question #${current.questionId} →`;
+  }
+}
+
+function toggleVocabCardFlip() {
+  const cardElem = document.getElementById('vocab-flip-card');
+  if (!cardElem) return;
+  isVocabFlipped = !isVocabFlipped;
+  cardElem.classList.toggle('flipped', isVocabFlipped);
+}
+
+function nextVocabCard() {
+  const list = getFilteredVocabList();
+  if (list.length === 0) return;
+  currentVocabIndex = (currentVocabIndex + 1) % list.length;
+  renderVocabFlashcard();
+}
+
+function prevVocabCard() {
+  const list = getFilteredVocabList();
+  if (list.length === 0) return;
+  currentVocabIndex = (currentVocabIndex - 1 + list.length) % list.length;
+  renderVocabFlashcard();
+}
+
+function shuffleVocabCard() {
+  const list = getFilteredVocabList();
+  if (list.length <= 1) return;
+  let randIdx = Math.floor(Math.random() * list.length);
+  while (randIdx === currentVocabIndex) {
+    randIdx = Math.floor(Math.random() * list.length);
+  }
+  currentVocabIndex = randIdx;
+  renderVocabFlashcard();
+  showToast("🔀 Shuffled to random word!");
+}
+
+function toggleVocabStar() {
+  const list = getFilteredVocabList();
+  const current = list[currentVocabIndex];
+  if (!current) return;
+
+  if (vocabStarIds.has(current.vocabId)) {
+    vocabStarIds.delete(current.vocabId);
+    showToast("Removed star");
+  } else {
+    vocabStarIds.add(current.vocabId);
+    showToast("⭐ Word starred!");
+  }
+  localStorage.setItem('esl_vocab_starred', JSON.stringify([...vocabStarIds]));
+  renderVocabFlashcard();
+  renderVocabGridView();
+}
+
+function toggleVocabMastered() {
+  const list = getFilteredVocabList();
+  const current = list[currentVocabIndex];
+  if (!current) return;
+
+  if (vocabMasteredIds.has(current.vocabId)) {
+    vocabMasteredIds.delete(current.vocabId);
+    showToast("Moved to still learning");
+  } else {
+    vocabMasteredIds.add(current.vocabId);
+    showToast("✅ Word marked as mastered!");
+  }
+  localStorage.setItem('esl_vocab_mastered', JSON.stringify([...vocabMasteredIds]));
+  renderVocabFlashcard();
+  renderVocabGridView();
+  updateProgressStats();
+}
+
+function markVocabAndNext() {
+  const list = getFilteredVocabList();
+  const current = list[currentVocabIndex];
+  if (current && !vocabMasteredIds.has(current.vocabId)) {
+    vocabMasteredIds.add(current.vocabId);
+    localStorage.setItem('esl_vocab_mastered', JSON.stringify([...vocabMasteredIds]));
+    updateProgressStats();
+    showToast("✅ Mastered! Moving to next word...");
+  }
+  nextVocabCard();
+}
+
+function speakVocabWord() {
+  const list = getFilteredVocabList();
+  const current = list[currentVocabIndex];
+  if (current) speakText(current.word);
+}
+
+function speakVocabExample() {
+  const list = getFilteredVocabList();
+  const current = list[currentVocabIndex];
+  if (current && current.example) speakText(current.example);
+}
+
+function jumpFromVocabToQuestion() {
+  const list = getFilteredVocabList();
+  const current = list[currentVocabIndex];
+  if (current) {
+    jumpToQuestion(current.questionId);
+  }
+}
+
+// Vocab Explorer / Grid View
+function renderVocabGridView() {
+  const container = document.getElementById('vocab-grid-items');
+  if (!container) return;
+
+  const list = getFilteredVocabList();
+  if (list.length === 0) {
+    container.innerHTML = `
+      <div style="grid-column: 1 / -1; text-align: center; padding: 3rem 1rem; color: var(--text-muted);">
+        <p style="font-size: 1.1rem; font-weight: 700;">No vocabulary words match this filter</p>
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = list.map(v => {
+    const isMastered = vocabMasteredIds.has(v.vocabId);
+    const isStarred = vocabStarIds.has(v.vocabId);
+
+    return `
+      <div class="vocab-grid-item">
+        <div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.4rem;">
+            <span style="font-size:0.75rem; font-weight:700; color:var(--primary); text-transform:uppercase;">${v.category}</span>
+            <div style="display:flex; gap:0.25rem;">
+              <button class="card-action-btn ${isStarred ? 'active-favorite' : ''}" style="width:30px; height:30px;" onclick="toggleGridVocabStar(${v.vocabId})" title="Star">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="${isStarred ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+              </button>
+              <button class="card-action-btn ${isMastered ? 'active-practiced' : ''}" style="width:30px; height:30px;" onclick="toggleGridVocabMastered(${v.vocabId})" title="Mastered">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="vocab-grid-term">${v.word}</div>
+          <span style="font-size:0.75rem; font-style:italic; color:var(--text-muted);">${v.pos}</span>
+          <p style="font-size:0.85rem; color:var(--text-primary); margin:0.4rem 0 0.5rem; line-height:1.4;">${v.meaning}</p>
+          ${v.example ? `<p style="font-size:0.8rem; color:var(--text-muted); font-style:italic; border-left:2px solid var(--border); padding-left:0.5rem; margin-bottom:0.5rem;">"${v.example}"</p>` : ''}
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border); padding-top:0.6rem; margin-top:0.5rem;">
+          <button class="icon-btn" style="width:32px; height:32px;" onclick="speakText('${v.word.replace(/'/g, "\\'")}')" title="Pronunciation">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+              <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            </svg>
+          </button>
+          <button class="tool-btn btn-primary" style="padding:0.3rem 0.7rem; font-size:0.78rem;" onclick="launchVocabCardDirect(${v.vocabId})">
+            Study Card 🎴
+          </button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function toggleGridVocabStar(id) {
+  if (vocabStarIds.has(id)) vocabStarIds.delete(id);
+  else vocabStarIds.add(id);
+  localStorage.setItem('esl_vocab_starred', JSON.stringify([...vocabStarIds]));
+  renderVocabGridView();
+  renderVocabFlashcard();
+}
+
+function toggleGridVocabMastered(id) {
+  if (vocabMasteredIds.has(id)) vocabMasteredIds.delete(id);
+  else vocabMasteredIds.add(id);
+  localStorage.setItem('esl_vocab_mastered', JSON.stringify([...vocabMasteredIds]));
+  renderVocabGridView();
+  renderVocabFlashcard();
+  updateProgressStats();
+}
+
+function launchVocabCardDirect(id) {
+  const list = getFilteredVocabList();
+  const idx = list.findIndex(v => v.vocabId === id);
+  if (idx !== -1) {
+    currentVocabIndex = idx;
+    switchVocabViewMode('flip');
+    renderVocabFlashcard();
+  }
+}
+
+function switchVocabViewMode(mode) {
+  vocabViewMode = mode;
+  const flipContainer = document.getElementById('vocab-flip-deck-container');
+  const gridContainer = document.getElementById('vocab-grid-view-container');
+  const btnFlip = document.getElementById('btn-mode-flip');
+  const btnGrid = document.getElementById('btn-mode-grid');
+
+  if (mode === 'flip') {
+    if (flipContainer) flipContainer.style.display = 'block';
+    if (gridContainer) gridContainer.style.display = 'none';
+    if (btnFlip) btnFlip.classList.add('active');
+    if (btnGrid) btnGrid.classList.remove('active');
+    renderVocabFlashcard();
+  } else {
+    if (flipContainer) flipContainer.style.display = 'none';
+    if (gridContainer) gridContainer.style.display = 'block';
+    if (btnFlip) btnFlip.classList.remove('active');
+    if (btnGrid) btnGrid.classList.add('active');
+    renderVocabGridView();
+  }
+}
+
+// ============================================================
+// TEXT TO SPEECH & VOICE RECORDER
+// ============================================================
 function speakCurrentQuestion() {
   const q = speakingQuestions[currentIndex];
-  if (!q) return;
-  speakText(q.question);
+  if (q) speakText(q.question);
 }
 
 function speakText(text) {
@@ -330,14 +667,13 @@ function speakText(text) {
     return;
   }
 
-  window.speechSynthesis.cancel(); // Stop ongoing speech
+  window.speechSynthesis.cancel();
 
   const utterance = new SpeechSynthesisUtterance(text);
-  utterance.rate = 0.92; // slightly slower for language learners
+  utterance.rate = 0.92;
   utterance.pitch = 1.0;
   utterance.lang = 'en-US';
 
-  // Find a clear natural English voice if available
   const voices = window.speechSynthesis.getVoices();
   const naturalVoice = voices.find(v => (v.lang.startsWith('en') && (v.name.includes('Natural') || v.name.includes('Google') || v.name.includes('Samantha') || v.name.includes('Daniel'))));
   if (naturalVoice) utterance.voice = naturalVoice;
@@ -348,7 +684,6 @@ function speakText(text) {
   utterance.onend = () => {
     if (audioBtn) audioBtn.classList.remove('btn-accent');
   };
-
   utterance.onerror = () => {
     if (audioBtn) audioBtn.classList.remove('btn-accent');
   };
@@ -356,14 +691,12 @@ function speakText(text) {
   window.speechSynthesis.speak(utterance);
 }
 
-// Voice Recorder for Self-Evaluation
 async function toggleVoiceRecording() {
   const recordBtn = document.getElementById('card-record-btn');
   const recordLabel = document.getElementById('record-btn-label');
   const previewDiv = document.getElementById('recorded-audio-preview');
 
   if (!isRecording) {
-    // Start Recording
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       mediaRecorder = new MediaRecorder(stream);
@@ -398,7 +731,6 @@ async function toggleVoiceRecording() {
       showToast("Microphone access denied or not supported.");
     }
   } else {
-    // Stop Recording
     if (mediaRecorder && mediaRecorder.state !== 'inactive') {
       mediaRecorder.stop();
       mediaRecorder.stream.getTracks().forEach(track => track.stop());
@@ -410,7 +742,9 @@ async function toggleVoiceRecording() {
   }
 }
 
-// Speaking Practice Timer Logic
+// ============================================================
+// PRACTICE TIMER
+// ============================================================
 function openTimerModal(prepTime = 15, speakTime = 60) {
   prepSeconds = prepTime;
   speakSeconds = speakTime;
@@ -456,7 +790,7 @@ function updateTimerDisplay() {
   }
 
   if (circle) {
-    const totalLength = 471; // 2 * PI * 75
+    const totalLength = 471;
     const progress = (timerTotalSeconds - timerRemainingSeconds) / timerTotalSeconds;
     const offset = totalLength * progress;
     circle.style.strokeDashoffset = offset;
@@ -466,7 +800,6 @@ function updateTimerDisplay() {
 function toggleTimerRun() {
   const btn = document.getElementById('timer-start-pause-btn');
   if (!timerIsRunning) {
-    // Start
     timerIsRunning = true;
     if (btn) btn.innerText = "Pause";
     timerInterval = setInterval(() => {
@@ -474,7 +807,6 @@ function toggleTimerRun() {
         timerRemainingSeconds--;
         updateTimerDisplay();
       } else {
-        // Phase transition or completion
         playBeepTone();
         if (timerPhase === 'prep') {
           timerPhase = 'speak';
@@ -491,7 +823,6 @@ function toggleTimerRun() {
       }
     }, 1000);
   } else {
-    // Pause
     clearInterval(timerInterval);
     timerIsRunning = false;
     if (btn) btn.innerText = "Resume";
@@ -515,7 +846,6 @@ function setTimerPreset(prep, speak) {
   resetTimerState();
 }
 
-// Synthesized Audio Beep for Timer
 function playBeepTone() {
   try {
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -524,33 +854,30 @@ function playBeepTone() {
     osc.connect(gain);
     gain.connect(ctx.destination);
     osc.type = 'sine';
-    osc.frequency.setValueAtTime(587.33, ctx.currentTime); // D5 tone
+    osc.frequency.setValueAtTime(587.33, ctx.currentTime);
     gain.gain.setValueAtTime(0.3, ctx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.6);
     osc.start();
     osc.stop(ctx.currentTime + 0.6);
   } catch (e) {
-    // Ignore audio context autoplay limitations
+    // Ignore audio context errors
   }
 }
 
 // ============================================================
-// LIST VIEW RENDERING
+// ALL 30 QUESTIONS LIST VIEW
 // ============================================================
 function renderListView() {
   const container = document.getElementById('questions-list-grid');
   if (!container) return;
 
-  // Filter questions
   let filtered = speakingQuestions.filter(q => {
-    // Category check
     if (currentCategoryFilter === 'favorites' && !favoriteIds.has(q.id)) return false;
     if (currentCategoryFilter === 'practiced' && !practicedIds.has(q.id)) return false;
     if (currentCategoryFilter !== 'all' && currentCategoryFilter !== 'favorites' && currentCategoryFilter !== 'practiced') {
       if (q.categoryKey !== currentCategoryFilter) return false;
     }
 
-    // Search check
     if (currentSearchTerm) {
       const matchTitle = q.title.toLowerCase().includes(currentSearchTerm);
       const matchQ = q.question.toLowerCase().includes(currentSearchTerm);
@@ -695,7 +1022,7 @@ function toggleListPracticed(id) {
 }
 
 // ============================================================
-// SPEED DRILL MODE
+// SPEED DRILL
 // ============================================================
 let drillQuestionObj = null;
 
@@ -712,7 +1039,7 @@ function renderDrillQuestion() {
 
 function startDrillPractice() {
   if (!drillQuestionObj) return;
-  openTimerModal(10, 60); // 10s prep, 60s speak
+  openTimerModal(10, 60);
   toggleTimerRun();
 }
 

@@ -12,10 +12,10 @@ const speakingQuestions = [
       "Do you ever run late in the morning? What happens when you do?"
     ],
     vocab: [
-      { word: "hit the snooze button", meaning: "to delay your alarm for a few extra minutes of sleep" },
-      { word: "in a rush / in a hurry", meaning: "moving quickly because you have little time" },
-      { word: "grab a bite", meaning: "to eat something quick or light" },
-      { word: "double-check", meaning: "to check something a second time to make sure it is correct" }
+      { word: "hit the snooze button", pos: "idiom / verb phrase", meaning: "to delay your alarm for a few extra minutes of sleep", example: "I hit the snooze button three times this morning and almost missed the school bus." },
+      { word: "in a rush / in a hurry", pos: "prepositional phrase", meaning: "moving quickly because you have little time", example: "I was in a rush because I couldn't find my school blazer." },
+      { word: "grab a bite", pos: "idiom", meaning: "to eat something quick or light", example: "Let's grab a quick bite to eat before our afternoon chemistry lab." },
+      { word: "double-check", pos: "verb", meaning: "to check something a second time to make sure it is correct", example: "Always double-check your backpack for your calculator before leaving." }
     ],
     starters: [
       "On a typical school morning, my alarm goes off at...",
@@ -36,10 +36,10 @@ const speakingQuestions = [
       "What is your favorite way to pass the time on the way to school?"
     ],
     vocab: [
-      { word: "commute", meaning: "the journey to and from school or work" },
-      { word: "public transport", meaning: "buses, trains, and subways available to everyone" },
-      { word: "carpool", meaning: "traveling together in one car with friends or neighbors" },
-      { word: "listen to podcasts / music", meaning: "audio entertainment to pass time" }
+      { word: "commute", pos: "noun / verb", meaning: "the journey to and from school or work", example: "My daily commute to school takes about twenty minutes on the tram." },
+      { word: "public transport", pos: "noun", meaning: "buses, trains, and subways available to everyone", example: "Taking public transport is cheap and helps reduce city traffic." },
+      { word: "carpool", pos: "verb / noun", meaning: "traveling together in one car with friends or neighbors", example: "My neighbors and I carpool together on rainy school days." },
+      { word: "listen to podcasts / music", pos: "verb phrase", meaning: "audio entertainment to pass time", example: "I listen to podcasts on the bus to practice my English listening." }
     ],
     starters: [
       "I normally commute to school by...",
@@ -60,10 +60,10 @@ const speakingQuestions = [
       "How is your weekday breakfast different from your weekend breakfast?"
     ],
     vocab: [
-      { word: "fuel / energy boost", meaning: "food that gives you stamina for the morning" },
-      { word: "skip a meal", meaning: "to choose not to eat at a usual mealtime" },
-      { word: "nutritious", meaning: "healthy and full of vitamins or minerals" },
-      { word: "scrambled eggs / oatmeal", meaning: "common breakfast foods" }
+      { word: "fuel / energy boost", pos: "noun", meaning: "food that gives you stamina for the morning", example: "Eating a hearty breakfast gives me the fuel I need for gym class." },
+      { word: "skip a meal", pos: "verb phrase", meaning: "to choose not to eat at a usual mealtime", example: "You shouldn't skip a meal, especially before taking a difficult exam." },
+      { word: "nutritious", pos: "adjective", meaning: "healthy and full of vitamins or minerals", example: "A nutritious breakfast of eggs and fruit keeps you focused for hours." },
+      { word: "scrambled eggs / oatmeal", pos: "noun", meaning: "common breakfast foods", example: "My mom makes warm oatmeal with berries on chilly mornings." }
     ],
     starters: [
       "For breakfast on weekdays, I usually have...",
@@ -84,10 +84,10 @@ const speakingQuestions = [
       "What do you do when you need to stay awake late to study?"
     ],
     vocab: [
-      { word: "early bird / morning person", meaning: "someone who naturally wakes up early and has energy in the morning" },
-      { word: "night owl", meaning: "someone who prefers staying awake late into the night" },
-      { word: "productive", meaning: "able to achieve or produce a lot of work" },
-      { word: "groggy / drowsy", meaning: "feeling sleepy and slow to react" }
+      { word: "early bird / morning person", pos: "noun phrase", meaning: "someone who naturally wakes up early and has energy in the morning", example: "My sister is an early bird who wakes up energized at 6 AM." },
+      { word: "night owl", pos: "noun phrase", meaning: "someone who prefers staying awake late into the night", example: "As a night owl, I find it easier to concentrate on homework past 9 PM." },
+      { word: "productive", pos: "adjective", meaning: "able to achieve or produce a lot of work", example: "I had a very productive study session at the library yesterday." },
+      { word: "groggy / drowsy", pos: "adjective", meaning: "feeling sleepy and slow to react", example: "I felt so groggy during first period because I stayed up watching videos." }
     ],
     starters: [
       "I definitely consider myself a...",
@@ -108,10 +108,10 @@ const speakingQuestions = [
       "Does the season or weather change how hard it is to wake up?"
     ],
     vocab: [
-      { word: "struggle", meaning: "to find something very difficult to do" },
-      { word: "cozy", meaning: "warm, comfortable, and pleasant" },
-      { word: "sleep deprivation", meaning: "not getting enough hours of rest" },
-      { word: "get into a rhythm", meaning: "to establish a steady habit or routine" }
+      { word: "struggle", pos: "verb / noun", meaning: "to find something very difficult to do", example: "Many students struggle to wake up on dark Monday mornings." },
+      { word: "cozy", pos: "adjective", meaning: "warm, comfortable, and pleasant", example: "It's so hard to get out of a warm, cozy bed when it's freezing outside." },
+      { word: "sleep deprivation", pos: "noun", meaning: "not getting enough hours of rest", example: "Sleep deprivation can negatively affect your grades and your mood." },
+      { word: "get into a rhythm", pos: "idiom", meaning: "to establish a steady habit or routine", example: "Once you get into a regular morning rhythm, waking up becomes second nature." }
     ],
     starters: [
       "Without a doubt, the hardest part for me is...",
@@ -132,10 +132,10 @@ const speakingQuestions = [
       "What is the most interesting project you have done in this class?"
     ],
     vocab: [
-      { word: "fascinating", meaning: "extremely interesting and engaging" },
-      { word: "hands-on experiments", meaning: "practical activities where you learn by doing" },
-      { word: "solve problems", meaning: "to find answers to questions or difficulties" },
-      { word: "passionate about", meaning: "having a strong enthusiasm for something" }
+      { word: "fascinating", pos: "adjective", meaning: "extremely interesting and engaging", example: "Learning about cellular structures in Biology is genuinely fascinating." },
+      { word: "hands-on experiments", pos: "noun phrase", meaning: "practical activities where you learn by doing", example: "Our chemistry teacher lets us perform exciting hands-on experiments in the laboratory." },
+      { word: "solve problems", pos: "verb phrase", meaning: "to find answers to questions or difficulties", example: "Mathematics teaches students how to solve complex logic problems step-by-step." },
+      { word: "passionate about", pos: "adjective phrase", meaning: "having a strong enthusiasm for something", example: "She is deeply passionate about world history and international politics." }
     ],
     starters: [
       "My favorite subject in high school has always been...",
@@ -156,10 +156,10 @@ const speakingQuestions = [
       "Where in your home do you study best?"
     ],
     vocab: [
-      { word: "workload", meaning: "the amount of work assigned to you" },
-      { word: "procrastinate", meaning: "to delay or postpone doing something you need to do" },
-      { word: "distraction-free", meaning: "a quiet place without phone notifications or noise" },
-      { word: "meet deadlines", meaning: "to finish assignments on or before the due date" }
+      { word: "workload", pos: "noun", meaning: "the amount of work assigned to you", example: "The homework workload in high school is much heavier than in middle school." },
+      { word: "procrastinate", pos: "verb", meaning: "to delay or postpone doing something you need to do", example: "If you procrastinate until Sunday night, you'll be stressed finishing your essay." },
+      { word: "distraction-free", pos: "adjective", meaning: "a quiet place without phone notifications or noise", example: "I need a quiet, distraction-free environment to study for my history finals." },
+      { word: "meet deadlines", pos: "verb phrase", meaning: "to finish assignments on or before the due date", example: "Using a student planner helps me meet all my assignment deadlines without panic." }
     ],
     starters: [
       "On average, I receive about... hours of homework per night.",
@@ -180,10 +180,10 @@ const speakingQuestions = [
       "How do you resolve disagreements in a student team?"
     ],
     vocab: [
-      { word: "teamwork / collaboration", meaning: "working together with other people towards a common goal" },
-      { word: "divide the tasks", meaning: "to assign different parts of a project to different members" },
-      { word: "work at my own pace", meaning: "to go as fast or slow as suits you without waiting for others" },
-      { word: "carry the load", meaning: "doing most of the work for the whole group" }
+      { word: "teamwork / collaboration", pos: "noun", meaning: "working together with other people towards a common goal", example: "Effective teamwork requires every group member to contribute their fair share." },
+      { word: "divide the tasks", pos: "verb phrase", meaning: "to assign different parts of a project to different members", example: "We decided to divide the tasks so everyone could focus on their strongest skill." },
+      { word: "work at my own pace", pos: "idiom", meaning: "to go as fast or slow as suits you without waiting for others", example: "Studying alone allows me to work at my own pace without waiting for others." },
+      { word: "carry the load", pos: "idiom", meaning: "doing most of the work for the whole group", example: "It's unfair when one person has to carry the load for the whole project team." }
     ],
     starters: [
       "Personally, I generally prefer...",
@@ -204,10 +204,10 @@ const speakingQuestions = [
       "Is patience more important than being strict?"
     ],
     vocab: [
-      { word: "approachable", meaning: "friendly and easy to talk to" },
-      { word: "patient", meaning: "calm and willing to explain things repeatedly without getting angry" },
-      { word: "enthusiastic", meaning: "showing intense excitement and interest in the subject" },
-      { word: "encourage / inspire", meaning: "to give confidence and motivation to students" }
+      { word: "approachable", pos: "adjective", meaning: "friendly and easy to talk to", example: "Our literature teacher is very approachable whenever we need extra help after class." },
+      { word: "patient", pos: "adjective", meaning: "calm and willing to explain things repeatedly without getting angry", example: "A patient teacher never makes students feel embarrassed for asking simple questions." },
+      { word: "enthusiastic", pos: "adjective", meaning: "showing intense excitement and interest in the subject", example: "His enthusiastic teaching style makes even dry grammar rules fun to learn." },
+      { word: "encourage / inspire", pos: "verb", meaning: "to give confidence and motivation to students", example: "Great teachers encourage their students to pursue ambitious goals." }
     ],
     starters: [
       "In my view, a great teacher should always be...",
@@ -228,10 +228,10 @@ const speakingQuestions = [
       "How would your suggested change benefit the students?"
     ],
     vocab: [
-      { word: "dress code / uniform policy", meaning: "rules about what clothes students are allowed to wear" },
-      { word: "start time", meaning: "the hour classes begin each morning" },
-      { word: "flexible", meaning: "adaptable and not overly strict" },
-      { word: "academic performance", meaning: "how well students score on tests and assignments" }
+      { word: "dress code / uniform policy", pos: "noun", meaning: "rules about what clothes students are allowed to wear", example: "Our high school has a strict dress code that bans wearing hoodies in class." },
+      { word: "start time", pos: "noun", meaning: "the hour classes begin each morning", example: "Pediatricians suggest that delaying school start times helps teenage brain health." },
+      { word: "flexible", pos: "adjective", meaning: "adaptable and not overly strict", example: "Teachers who are flexible with assignment due dates help reduce student anxiety." },
+      { word: "academic performance", pos: "noun phrase", meaning: "how well students score on tests and assignments", example: "Getting enough sleep is directly linked to better academic performance on exams." }
     ],
     starters: [
       "If I were allowed to change one rule, I would definitely...",
@@ -252,10 +252,10 @@ const speakingQuestions = [
       "Do you ever use break time to finish last-minute homework?"
     ],
     vocab: [
-      { word: "hang out", meaning: "to spend time relaxing together casually" },
-      { word: "catch up with friends", meaning: "to hear the latest news from friends" },
-      { word: "unwind", meaning: "to release tension and take a mental break" },
-      { word: "cafeteria / courtyard", meaning: "places where students gather during breaks" }
+      { word: "hang out", pos: "phrasal verb", meaning: "to spend time relaxing together casually", example: "My friends and I usually hang out by the school courtyard during lunch." },
+      { word: "catch up with friends", pos: "verb phrase", meaning: "to hear the latest news from friends", example: "Recess is our favorite time to catch up with friends from other classrooms." },
+      { word: "unwind", pos: "verb", meaning: "to release tension and take a mental break", example: "Taking a 15-minute walk outside helps you unwind between demanding tests." },
+      { word: "cafeteria / courtyard", pos: "noun", meaning: "places where students gather during breaks", example: "The school cafeteria gets extremely crowded right after the fourth period bell." }
     ],
     starters: [
       "During our 45-minute lunch break, I usually...",
@@ -276,10 +276,10 @@ const speakingQuestions = [
       "If you pack a lunch box, what do you usually bring?"
     ],
     vocab: [
-      { word: "packed lunch / lunchbox", meaning: "food prepared at home and brought in a container" },
-      { word: "canteen / cafeteria", meaning: "the school dining hall" },
-      { word: "homemade food", meaning: "food cooked freshly at home" },
-      { word: "balanced diet", meaning: "a diet containing various healthy food groups" }
+      { word: "packed lunch / lunchbox", pos: "noun", meaning: "food prepared at home and brought in a container", example: "I always bring a packed lunch with a sandwich and fresh apple slices." },
+      { word: "canteen / cafeteria", pos: "noun", meaning: "the school dining hall", example: "The school canteen serves hot meals like pasta, soup, and pizza slices." },
+      { word: "homemade food", pos: "noun", meaning: "food cooked freshly at home", example: "Homemade food is usually more nutritious and cost-effective than cafeteria meals." },
+      { word: "balanced diet", pos: "noun", meaning: "a diet containing various healthy food groups", example: "Maintaining a balanced diet helps keep your energy steady throughout the school day." }
     ],
     starters: [
       "Most of the time, I prefer to bring...",
@@ -300,10 +300,10 @@ const speakingQuestions = [
       "How do you support each other during stressful exam weeks?"
     ],
     vocab: [
-      { word: "get along well", meaning: "to have a harmonious, friendly relationship" },
-      { word: "hit it off", meaning: "to instantly become good friends upon meeting" },
-      { word: "sense of humor", meaning: "the ability to laugh and make jokes" },
-      { word: "trustworthy / supportive", meaning: "reliable and always ready to help" }
+      { word: "get along well", pos: "phrasal verb", meaning: "to have a harmonious, friendly relationship", example: "My best friend and I get along so well that we rarely ever argue." },
+      { word: "hit it off", pos: "idiom", meaning: "to instantly become good friends upon meeting", example: "We hit it off on the very first day of school because we both love anime." },
+      { word: "sense of humor", pos: "noun phrase", meaning: "the ability to laugh and make jokes", example: "Having a great sense of humor makes him fun to be around in class." },
+      { word: "trustworthy / supportive", pos: "adjective", meaning: "reliable and always ready to help", example: "A trustworthy friend is someone you can confide in without fear of gossip." }
     ],
     starters: [
       "My best friend at school is...",
@@ -324,10 +324,10 @@ const speakingQuestions = [
       "Is the hallway in your school crowded and noisy?"
     ],
     vocab: [
-      { word: "hallway / corridor", meaning: "the passageway connecting classrooms" },
-      { word: "gossip / chit-chat", meaning: "casual conversation about daily events or news" },
-      { word: "upcoming test", meaning: "an exam scheduled in the near future" },
-      { word: "rush between classes", meaning: "hurrying to get to the next room on time" }
+      { word: "hallway / corridor", pos: "noun", meaning: "the passageway connecting classrooms", example: "The hallway was packed with students rushing to their lockers before the bell." },
+      { word: "gossip / chit-chat", pos: "noun / verb", meaning: "casual conversation about daily events or news", example: "We shared some harmless chit-chat about our weekend plans while waiting for class." },
+      { word: "upcoming test", pos: "noun phrase", meaning: "an exam scheduled in the near future", example: "Everyone was nervously discussing the upcoming French vocabulary test." },
+      { word: "rush between classes", pos: "verb phrase", meaning: "hurrying to get to the next room on time", example: "We only have five minutes to rush between classes across the school building." }
     ],
     starters: [
       "In the five minutes we have between classes, we usually talk about...",
@@ -348,10 +348,10 @@ const speakingQuestions = [
       "Do you think schools should host more special events and festivals?"
     ],
     vocab: [
-      { word: "sports day / festival", meaning: "a special day organized for athletic competitions or arts" },
-      { word: "atmosphere", meaning: "the general mood or feeling of a place" },
-      { word: "participate in / take part in", meaning: "to join in an activity with others" },
-      { word: "unforgettable", meaning: "so special that it will always be remembered" }
+      { word: "sports day / festival", pos: "noun", meaning: "a special day organized for athletic competitions or arts", example: "Our annual sports day is the most exciting event on the school calendar." },
+      { word: "atmosphere", pos: "noun", meaning: "the general mood or feeling of a place", example: "The electric atmosphere in the gymnasium gave our basketball team great energy." },
+      { word: "participate in / take part in", pos: "verb phrase", meaning: "to join in an activity with others", example: "Every student is encouraged to participate in at least one club activity." },
+      { word: "unforgettable", pos: "adjective", meaning: "so special that it will always be remembered", example: "Winning the school debate competition was an unforgettable experience for our team." }
     ],
     starters: [
       "One memorable event that happened recently was our school's...",
@@ -372,10 +372,10 @@ const speakingQuestions = [
       "How do you shift your mindset from school mode to home mode?"
     ],
     vocab: [
-      { word: "kick off my shoes", meaning: "to relax right as you enter the house" },
-      { word: "recharge my batteries", meaning: "to regain energy after being tired" },
-      { word: "snack on something", meaning: "to eat a light treat between meals" },
-      { word: "change into comfortable clothes", meaning: "switching out of school attire" }
+      { word: "kick off my shoes", pos: "idiom", meaning: "to relax right as you enter the house", example: "As soon as I get home, I kick off my shoes and slump onto the couch." },
+      { word: "recharge my batteries", pos: "idiom", meaning: "to regain energy after being tired", example: "Taking a short afternoon nap helps me recharge my batteries before doing homework." },
+      { word: "snack on something", pos: "verb phrase", meaning: "to eat a light treat between meals", example: "I like to snack on nuts and dried fruit while reviewing my class notes." },
+      { word: "change into comfortable clothes", pos: "verb phrase", meaning: "switching out of school attire", example: "I immediately change into comfortable clothes like sweatpants after getting home." }
     ],
     starters: [
       "As soon as I walk through the front door, the first thing I do is...",
@@ -396,10 +396,10 @@ const speakingQuestions = [
       "If you could join a new club next semester, which one would you pick?"
     ],
     vocab: [
-      { word: "extracurricular activity", meaning: "activities done outside regular class time" },
-      { word: "commit time to", meaning: "to dedicate hours regularly to a pursuit" },
-      { word: "improve skills", meaning: "to get better at doing something" },
-      { word: "compete against other schools", meaning: "playing matches or tournaments" }
+      { word: "extracurricular activity", pos: "noun phrase", meaning: "activities done outside regular class time", example: "Drama club is a fantastic extracurricular activity that builds speaking confidence." },
+      { word: "commit time to", pos: "verb phrase", meaning: "to dedicate hours regularly to a pursuit", example: "High school athletes commit a lot of time to weekly practice sessions." },
+      { word: "improve skills", pos: "verb phrase", meaning: "to get better at doing something", example: "Playing in the school orchestra helped me improve my violin skills significantly." },
+      { word: "compete against other schools", pos: "verb phrase", meaning: "playing matches or tournaments", example: "Our football team travels on weekends to compete against other schools in the district." }
     ],
     starters: [
       "After school, I am involved in...",
@@ -420,10 +420,10 @@ const speakingQuestions = [
       "Who do you talk to when you feel overwhelmed by school exams?"
     ],
     vocab: [
-      { word: "blow off steam", meaning: "to release pent-up energy, anger, or stress" },
-      { word: "peaceful / therapeutic", meaning: "calming and beneficial for mental health" },
-      { word: "overwhelmed", meaning: "feeling like you have too many things to deal with" },
-      { word: "take my mind off things", meaning: "to stop worrying about your problems" }
+      { word: "blow off steam", pos: "idiom", meaning: "to release pent-up energy, anger, or stress", example: "Going for a jog around the track helps me blow off steam after stressful exams." },
+      { word: "peaceful / therapeutic", pos: "adjective", meaning: "calming and beneficial for mental health", example: "Listening to instrumental lo-fi music while drawing is really therapeutic." },
+      { word: "overwhelmed", pos: "adjective", meaning: "feeling like you have too many things to deal with", example: "Don't hesitate to talk to your school counselor if you feel overwhelmed by schoolwork." },
+      { word: "take my mind off things", pos: "idiom", meaning: "to stop worrying about your problems", example: "Playing video games with my brother helps take my mind off school pressure." }
     ],
     starters: [
       "When I feel stressed after a long week, I usually...",
@@ -444,10 +444,10 @@ const speakingQuestions = [
       "What has been the most challenging part of learning it so far?"
     ],
     vocab: [
-      { word: "pick up a hobby", meaning: "to start a new interest or activity" },
-      { word: "practice consistently", meaning: "to do something regularly to get better" },
-      { word: "online tutorials / video guides", meaning: "instructional videos on platforms like YouTube" },
-      { word: "make steady progress", meaning: "to improve gradually step by step" }
+      { word: "pick up a hobby", pos: "idiom", meaning: "to start a new interest or activity", example: "I decided to pick up photography as a new creative hobby this year." },
+      { word: "practice consistently", pos: "verb phrase", meaning: "to do something regularly to get better", example: "If you want to master a new language, you need to practice consistently every day." },
+      { word: "online tutorials / video guides", pos: "noun phrase", meaning: "instructional videos on platforms like YouTube", example: "I learned basic guitar chords by following free online tutorials on YouTube." },
+      { word: "make steady progress", pos: "verb phrase", meaning: "to improve gradually step by step", example: "With twenty minutes of daily practice, you will make steady progress in no time." }
     ],
     starters: [
       "Recently, I have started learning how to...",
@@ -468,10 +468,10 @@ const speakingQuestions = [
       "Do young people spend enough time outside these days?"
     ],
     vocab: [
-      { word: "nature / fresh air", meaning: "the outdoor environment" },
-      { word: "homebody", meaning: "a person who prefers staying at home" },
-      { word: "cozy atmosphere", meaning: "a warm and comfortable indoor vibe" },
-      { word: "explore surroundings", meaning: "discovering new places in your town or area" }
+      { word: "nature / fresh air", pos: "noun", meaning: "the outdoor environment", example: "Spending time in nature and breathing fresh air is great for your mental well-being." },
+      { word: "homebody", pos: "noun", meaning: "a person who prefers staying at home", example: "I'm a bit of a homebody, so I'd rather spend Saturday reading than at a loud party." },
+      { word: "cozy atmosphere", pos: "noun phrase", meaning: "a warm and comfortable indoor vibe", example: "My bedroom has a cozy atmosphere with soft lighting and bookshelves." },
+      { word: "explore surroundings", pos: "verb phrase", meaning: "discovering new places in your town or area", example: "On sunny weekends, my friends and I like to ride bikes and explore our surroundings." }
     ],
     starters: [
       "To be completely honest, I lean more towards being...",
@@ -492,10 +492,10 @@ const speakingQuestions = [
       "Do you use screen-time limits or app locks?"
     ],
     vocab: [
-      { word: "screen time", meaning: "the total amount of time spent looking at digital displays" },
-      { word: "social media apps", meaning: "platforms like Instagram, TikTok, and Snapchat" },
-      { word: "endless scrolling", meaning: "continuously looking at new posts for hours without stopping" },
-      { word: "cut down on", meaning: "to reduce the amount or frequency of something" }
+      { word: "screen time", pos: "noun", meaning: "the total amount of time spent looking at digital displays", example: "My smartphone reported an average of 4.5 hours of daily screen time last week." },
+      { word: "social media apps", pos: "noun phrase", meaning: "platforms like Instagram, TikTok, and Snapchat", example: "Teenagers use social media apps like Instagram and TikTok to stay in touch." },
+      { word: "endless scrolling", pos: "noun phrase", meaning: "continuously looking at new posts for hours without stopping", example: "Endless scrolling through video feeds is a major reason students sleep late." },
+      { word: "cut down on", pos: "phrasal verb", meaning: "to reduce the amount or frequency of something", example: "I'm making a conscious effort to cut down on phone usage during dinner." }
     ],
     starters: [
       "According to my phone's screen time tracker, I spend around...",
@@ -516,10 +516,10 @@ const speakingQuestions = [
       "How do you keep yourself from getting distracted while studying online?"
     ],
     vocab: [
-      { word: "digital flashcards", meaning: "apps like Quizlet or Anki used for memorization" },
-      { word: "research topics", meaning: "searching for academic information on the internet" },
-      { word: "educational resources", meaning: "learning videos, articles, and quizzes online" },
-      { word: "take digital notes", meaning: "typing or drawing notes on a tablet or laptop" }
+      { word: "digital flashcards", pos: "noun phrase", meaning: "apps like Quizlet or Anki used for memorization", example: "Apps like Quizlet make studying with digital flashcards fast and portable." },
+      { word: "research topics", pos: "verb phrase", meaning: "searching for academic information on the internet", example: "We use online academic databases to research topics for our science essays." },
+      { word: "educational resources", pos: "noun phrase", meaning: "learning videos, articles, and quizzes online", example: "There are thousands of free educational resources available online for high schoolers." },
+      { word: "take digital notes", pos: "verb phrase", meaning: "typing or drawing notes on a tablet or laptop", example: "Using a tablet and stylus allows me to take digital notes and draw diagrams neatly." }
     ],
     starters: [
       "Technology plays a major role in my study routine because...",
@@ -540,10 +540,10 @@ const speakingQuestions = [
       "What is the best way for teenagers to protect their privacy online?"
     ],
     vocab: [
-      { word: "stay connected", meaning: "to maintain relationships with friends easily" },
-      { word: "unrealistic standards", meaning: "fake or idealized images of life that cause pressure" },
-      { word: "cyberbullying", meaning: "bullying or harassment that takes place online" },
-      { word: "double-edged sword", meaning: "something that has both positive and negative effects" }
+      { word: "stay connected", pos: "verb phrase", meaning: "to maintain relationships with friends easily", example: "Social messaging apps allow classmates to stay connected outside of school hours." },
+      { word: "unrealistic standards", pos: "noun phrase", meaning: "fake or idealized images of life that cause pressure", example: "Filtered photos on social platforms can create unrealistic standards of beauty and success." },
+      { word: "cyberbullying", pos: "noun", meaning: "bullying or harassment that takes place online", example: "Schools must educate students on how to prevent and report cyberbullying." },
+      { word: "double-edged sword", pos: "idiom", meaning: "something that has both positive and negative effects", example: "Social media is a double-edged sword: great for connecting, but harmful when overused." }
     ],
     starters: [
       "In my opinion, social media is definitely a double-edged sword...",
@@ -564,10 +564,10 @@ const speakingQuestions = [
       "What makes a good TV show or video game storyline?"
     ],
     vocab: [
-      { word: "multiplayer game", meaning: "a game played online with other real people" },
-      { word: "binge-watch", meaning: "to watch multiple episodes of a series in one sitting" },
-      { word: "immersive storyline", meaning: "a gripping plot that draws you in completely" },
-      { word: "set a time limit", meaning: "to restrict the duration you play or watch" }
+      { word: "multiplayer game", pos: "noun phrase", meaning: "a game played online with other real people", example: "We played a cooperative multiplayer game online to finish a team quest." },
+      { word: "binge-watch", pos: "verb", meaning: "to watch multiple episodes of a series in one sitting", example: "My friends and I binge-watched the entire season of a mystery series over the weekend." },
+      { word: "immersive storyline", pos: "noun phrase", meaning: "a gripping plot that draws you in completely", example: "A great role-playing game needs an immersive storyline with memorable characters." },
+      { word: "set a time limit", pos: "verb phrase", meaning: "to restrict the duration you play or watch", example: "It is wise to set a time limit for gaming on school nights to protect your sleep." }
     ],
     starters: [
       "During the week, I usually spend about an hour...",
@@ -588,10 +588,10 @@ const speakingQuestions = [
       "Why is it so hard for people our age to disconnect from the internet?"
     ],
     vocab: [
-      { word: "digital detox", meaning: "a period of time when you deliberately avoid screens" },
-      { word: "unplug / disconnect", meaning: "to stop using electronic devices" },
-      { word: "present in the moment", meaning: "focusing on what is happening right now in real life" },
-      { word: "urge to check", meaning: "a strong impulse to look at notifications" }
+      { word: "digital detox", pos: "noun phrase", meaning: "a period of time when you deliberately avoid screens", example: "Going on a weekend camping trip is the perfect excuse for a digital detox." },
+      { word: "unplug / disconnect", pos: "verb", meaning: "to stop using electronic devices", example: "Learning how to unplug from your devices in the evening improves sleep quality." },
+      { word: "present in the moment", pos: "phrase", meaning: "focusing on what is happening right now in real life", example: "Putting away your smartphone allows you to be fully present in the moment with friends." },
+      { word: "urge to check", pos: "noun phrase", meaning: "a strong impulse to look at notifications", example: "Whenever my phone vibrates, I feel an instant urge to check my notifications." }
     ],
     starters: [
       "Last summer, I decided to try a digital detox during...",
@@ -612,10 +612,10 @@ const speakingQuestions = [
       "Do you have a family movie night or game night during the week?"
     ],
     vocab: [
-      { word: "sit down together", meaning: "gathering at the table at the same time" },
-      { word: "share how our day went", meaning: "talking about daily events and experiences" },
-      { word: "family tradition", meaning: "a routine or activity your family always does" },
-      { word: "quality time", meaning: "meaningful time spent with loved ones" }
+      { word: "sit down together", pos: "verb phrase", meaning: "gathering at the table at the same time", example: "Our family makes a point to sit down together for dinner at least five nights a week." },
+      { word: "share how our day went", pos: "verb phrase", meaning: "talking about daily events and experiences", example: "Dinner is a comfortable time to share how our day went and talk about school." },
+      { word: "family tradition", pos: "noun phrase", meaning: "a routine or activity your family always does", example: "Watching a movie together every Friday evening is a long-standing family tradition." },
+      { word: "quality time", pos: "noun phrase", meaning: "meaningful time spent with loved ones", example: "Cooking meals together is a wonderful way to spend quality time with your parents." }
     ],
     starters: [
       "In my household, dinner is the main time when we...",
@@ -636,10 +636,10 @@ const speakingQuestions = [
       "How do you and your siblings divide the housework?"
     ],
     vocab: [
-      { word: "household chores", meaning: "routine tasks like cleaning, washing, and tidying" },
-      { word: "take out the trash", meaning: "carrying garbage bags to the outdoor bins" },
-      { word: "load / unload the dishwasher", meaning: "putting dishes into or out of the washing machine" },
-      { word: "keep my room tidy", meaning: "making sure your bedroom is neat and organized" }
+      { word: "household chores", pos: "noun phrase", meaning: "routine tasks like cleaning, washing, and tidying", example: "Doing household chores teaches teenagers valuable life skills and independence." },
+      { word: "take out the trash", pos: "verb phrase", meaning: "carrying garbage bags to the outdoor bins", example: "My chore every Tuesday and Friday evening is to take out the trash and recycling." },
+      { word: "load / unload the dishwasher", pos: "verb phrase", meaning: "putting dishes into or out of the washing machine", example: "My brother and I take turns to load and unload the dishwasher after meals." },
+      { word: "keep my room tidy", pos: "verb phrase", meaning: "making sure your bedroom is neat and organized", example: "My parents insist that I keep my room tidy and make my bed before leaving for school." }
     ],
     starters: [
       "My main responsibilities around the house include...",
@@ -660,10 +660,10 @@ const speakingQuestions = [
       "What is the best Saturday you have had recently?"
     ],
     vocab: [
-      { word: "sleep in", meaning: "to stay in bed and wake up later than usual in the morning" },
-      { word: "hang out with friends", meaning: "spending casual time with your social circle" },
-      { word: "balance fun and study", meaning: "dividing time fairly between relaxation and work" },
-      { word: "ideal weekend", meaning: "a perfect, dream Saturday and Sunday" }
+      { word: "sleep in", pos: "phrasal verb", meaning: "to stay in bed and wake up later than usual in the morning", example: "I love being able to sleep in until 9:30 AM on Saturdays without an alarm." },
+      { word: "hang out with friends", pos: "verb phrase", meaning: "spending casual time with your social circle", example: "On weekend afternoons, we usually hang out with friends at the local park or café." },
+      { word: "balance fun and study", pos: "verb phrase", meaning: "dividing time fairly between relaxation and work", example: "It's essential to balance fun and study so you don't feel overwhelmed on Sunday night." },
+      { word: "ideal weekend", pos: "noun phrase", meaning: "a perfect, dream Saturday and Sunday", example: "My ideal weekend involves good food, relaxing with friends, and zero homework!" }
     ],
     starters: [
       "On Saturdays, I usually like to sleep in until...",
@@ -684,10 +684,10 @@ const speakingQuestions = [
       "Who are you looking forward to spending time with?"
     ],
     vocab: [
-      { word: "look forward to", meaning: "to feel excited about a future event" },
-      { word: "go on a trip / travel abroad", meaning: "visiting another city or country" },
-      { word: "staycation", meaning: "taking a vacation while staying at home" },
-      { word: "take a break from studies", meaning: "pausing academic work for relaxation" }
+      { word: "look forward to", pos: "phrasal verb", meaning: "to feel excited about a future event", example: "I'm really looking forward to the upcoming spring holiday after midterm exams." },
+      { word: "go on a trip / travel abroad", pos: "verb phrase", meaning: "visiting another city or country", example: "We are hoping to go on a road trip to the mountains during the summer vacation." },
+      { word: "staycation", pos: "noun", meaning: "taking a vacation while staying at home", example: "A relaxing staycation at home with books and movies can be just as fun as traveling." },
+      { word: "take a break from studies", pos: "verb phrase", meaning: "pausing academic work for relaxation", example: "School holidays give your brain time to recharge and take a break from studies." }
     ],
     starters: [
       "For my next school break, I am really looking forward to...",
@@ -708,10 +708,10 @@ const speakingQuestions = [
       "What skills do you need to develop to achieve your dream career?"
     ],
     vocab: [
-      { word: "pursue a career in", meaning: "to work towards a specific profession" },
-      { word: "apply to university / college", meaning: "submitting applications for higher education" },
-      { word: "take a gap year", meaning: "taking a year off before college to travel or work" },
-      { word: "follow my passion", meaning: "choosing a path based on what you love doing" }
+      { word: "pursue a career in", pos: "verb phrase", meaning: "to work towards a specific profession", example: "I am hoping to pursue a career in software engineering or artificial intelligence." },
+      { word: "apply to university / college", pos: "verb phrase", meaning: "submitting applications for higher education", example: "Senior high school students spend the autumn term preparing to apply to university." },
+      { word: "take a gap year", pos: "verb phrase", meaning: "taking a year off before college to travel or work", example: "Some students decide to take a gap year to gain work experience and travel before college." },
+      { word: "follow my passion", pos: "idiom", meaning: "choosing a path based on what you love doing", example: "My parents encourage me to follow my passion and choose a career I genuinely enjoy." }
     ],
     starters: [
       "After graduating from high school, I am hoping to...",
@@ -721,6 +721,28 @@ const speakingQuestions = [
     modelAnswer: "After graduating from high school, I am planning to attend university and study computer science or graphic design. I have always been fascinated by how software and digital art work together, and I would love to design mobile apps or video game interfaces in the future. To achieve this, I am trying to focus on my mathematics and English grades while practicing basic programming online."
   }
 ];
+
+// Flat list helper of all 120 vocabulary words across all 30 questions
+function getAllVocabularyList() {
+  const list = [];
+  let cardIdCounter = 1;
+  speakingQuestions.forEach(q => {
+    q.vocab.forEach(v => {
+      list.push({
+        vocabId: cardIdCounter++,
+        word: v.word,
+        pos: v.pos || 'phrase',
+        meaning: v.meaning,
+        example: v.example || '',
+        category: q.category,
+        categoryKey: q.categoryKey,
+        questionId: q.id,
+        questionTitle: q.title
+      });
+    });
+  });
+  return list;
+}
 
 // Discourse markers & B1 Speaking tips
 const speakingTips = [
@@ -747,6 +769,5 @@ const speakingTips = [
 ];
 
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { speakingQuestions, speakingTips };
+  module.exports = { speakingQuestions, getAllVocabularyList, speakingTips };
 }
-

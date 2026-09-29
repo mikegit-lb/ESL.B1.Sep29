@@ -17,9 +17,15 @@ An interactive, client-side web application containing **30 CEFR B1-level speaki
   4. 🎨 After-School Hobbies, Sports & Stress Relief
   5. 📱 Smartphone Screen Time & Social Media
   6. 🏡 Family Evenings, Chores & Weekend Plans
+- **🎴 Dedicated 120-Word Vocab Flashcard Deck**:
+  - Interactive **3D CSS Flip Cards** with smooth flip animations.
+  - **Front Face**: Target word, Part of speech, Audio pronunciation, and context topic badge.
+  - **Back Face**: Definition, in-context high school example sentence with bolded keywords, Audio pronunciation for example sentences, and direct link to the related speaking prompt.
+  - **Study Modes**: 3D Flashcard Flip Deck vs. 120-Word Grid Table Explorer.
+  - **Mastery Tracker**: "Need Review" vs. "Mastered" status tracking with progress counters.
 - **Scaffolding for Each Question**:
   - 💬 **Sentence Starters** to help formulate initial sentences.
-  - 📚 **Target Vocabulary** with definitions.
+  - 📚 **Target Vocabulary** with definitions and audio.
   - 💡 **CEFR B1 Model Answers** demonstrating natural connective phrasing.
   - ❓ **Follow-Up Questions** to extend conversational fluency.
 - **Interactive Tools**:
